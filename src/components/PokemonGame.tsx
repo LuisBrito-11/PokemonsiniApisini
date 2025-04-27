@@ -15,16 +15,16 @@ const PokemonGame: React.FC = () => {
   const [feedback, setFeedback] = useState('');
   const [score, setScore] = useState(0);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  audio; //tenia que arreglarlo como fuera para poder subirlo a vercel => "vamos pa donde las primas"
+  audio; // Solución para Vercel
   const [attempts, setAttempts] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [streak, setStreak] = useState(0); // Estado para la racha
-  const [hasGuessedCorrectly, setHasGuessedCorrectly] = useState(false); // Estado para evitar incrementos múltiples
+  const [streak, setStreak] = useState(0);
+  const [hasGuessedCorrectly, setHasGuessedCorrectly] = useState(false);
 
   const fetchPokemon = async () => {
     setIsLoading(true);
     setReveal(false);
-    setHasGuessedCorrectly(false); // Reiniciar para el nuevo Pokémon
+    setHasGuessedCorrectly(false);
     const id = getRandomPokemonId();
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const data = await res.json();
@@ -43,22 +43,21 @@ const PokemonGame: React.FC = () => {
   };
 
   const handleGuess = () => {
-    if (!pokemon || hasGuessedCorrectly) return; // Evitar más intentos si ya adivinó
+    if (!pokemon || hasGuessedCorrectly) return;
     setAttempts((prev) => prev + 1);
-    
+
     if (input.trim().toLowerCase() === pokemon.name) {
-      setStreak(prev => prev + 1); // Incrementar racha
+      setStreak(prev => prev + 1);
       setReveal(true);
       setFeedback('¡Correcto!');
       setScore((prev) => prev + 1);
-      setHasGuessedCorrectly(true); // Marcar que ya adivinó
+      setHasGuessedCorrectly(true);
 
       const cry = new Audio(`https://play.pokemonshowdown.com/audio/cries/${pokemon.name}.ogg`);
       cry.play().catch(() => console.log("Sonido no disponible para este Pokémon"));
       setAudio(cry);
-
     } else {
-      setStreak(0); // Reiniciar racha
+      setStreak(0);
       setFeedback('¡Incorrecto! Intenta de nuevo.');
     }
   };
@@ -71,7 +70,7 @@ const PokemonGame: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-between py-8 w-full max-w-none m-0 p-0">
       <img
         src={QuienEsEstePokemon}
-        alt="¿Quién es este Pokémon?" 
+        alt="¿Quién es este Pokémon?"
         className="max-w-2xl h-auto object-contain mb-2"
       />
 
@@ -83,13 +82,13 @@ const PokemonGame: React.FC = () => {
         ) : (
           pokemon && (
             <img
-            onContextMenu={(e) => e.preventDefault()}
+              onContextMenu={(e) => e.preventDefault()}
               src={pokemon.image}
               draggable="false"
               alt="Pokémon misterioso"
               className={`w-60 h-60 object-contain transition-filter duration-500 ${
                 reveal ? 'brightness-100' : 'brightness-0'
-              }`}
+              } pointer-events-none`}
             />
           )
         )}
