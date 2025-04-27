@@ -6,6 +6,32 @@ type Pokemon = {
   image: string;
 };
 
+type PokemonDisplayProps = {
+  sprite: string;
+  gameOver: boolean;
+};
+
+const PokemonDisplay: React.FC<PokemonDisplayProps> = ({ sprite, gameOver }) => {
+  return (
+    <div className="mb-6 relative w-40 h-40 mx-auto">
+      <div className="absolute inset-0 rounded-full bg-gradient-to-b from-gray-900 to-black shadow-inner opacity-80"></div>
+      <div
+        className={`w-40 h-40 mx-auto transition-all duration-500 ${
+          gameOver ? 'filter brightness-100 scale-110' : 'filter brightness-0 scale-100'
+        }`}
+        style={{
+          backgroundImage: `url(${sprite})`,
+          backgroundSize: 'contain',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          userSelect: 'none',
+          pointerEvents: 'none', // Previene lupa en Edge
+        }}
+      />
+    </div>
+  );
+};
+
 const getRandomPokemonId = () => Math.floor(Math.random() * 151) + 1;
 
 const PokemonGame: React.FC = () => {
@@ -15,7 +41,7 @@ const PokemonGame: React.FC = () => {
   const [feedback, setFeedback] = useState('');
   const [score, setScore] = useState(0);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  audio; // Solución para Vercel
+  audio; //tenia que arreglarlo como fuera porque no me estaba dejando subir a vercel => "Vamos pa donde las primas"
   const [attempts, setAttempts] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [streak, setStreak] = useState(0);
@@ -47,7 +73,7 @@ const PokemonGame: React.FC = () => {
     setAttempts((prev) => prev + 1);
 
     if (input.trim().toLowerCase() === pokemon.name) {
-      setStreak(prev => prev + 1);
+      setStreak((prev) => prev + 1);
       setReveal(true);
       setFeedback('¡Correcto!');
       setScore((prev) => prev + 1);
@@ -81,15 +107,7 @@ const PokemonGame: React.FC = () => {
           </div>
         ) : (
           pokemon && (
-            <img
-              onContextMenu={(e) => e.preventDefault()}
-              src={pokemon.image}
-              draggable="false"
-              alt="Pokémon misterioso"
-              className={`w-60 h-60 object-contain transition-filter duration-500 ${
-                reveal ? 'brightness-100' : 'brightness-0'
-              } pointer-events-none`}
-            />
+            <PokemonDisplay sprite={pokemon.image} gameOver={reveal} />
           )
         )}
       </div>
