@@ -114,3 +114,11 @@ html, body {
   color: white;
   font-weight: bold;
 }
+
+*{
+  cursor: url(/cursor2.png) -32 -32, auto ;
+} 
+
+.cursor-hover:hover {
+  cursor: url('/cursor2.png') -32 -32, auto;
+}

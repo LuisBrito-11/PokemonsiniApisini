@@ -141,7 +141,7 @@ const PokemonGame: React.FC = () => {
         </div>
         <button
           onClick={fetchPokemon}
-          className="text-yellow-300 underline hover:text-yellow-400 font-semibold"
+          className="text-yellow-300 underline cursor-hover hover:text-yellow-400 font-semibold"
           disabled={isLoading}
         >
           Nuevo Pokémon
