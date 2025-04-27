@@ -1,4 +1,3 @@
-import React from 'react';
 import PokemonGame from './components/PokemonGame';
 import './App.css';
 

@@ -15,6 +15,7 @@ const PokemonGame: React.FC = () => {
   const [feedback, setFeedback] = useState('');
   const [score, setScore] = useState(0);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  audio; //tenia que arreglarlo como fuera para poder subirlo a vercel => "vamos pa donde las primas"
   const [attempts, setAttempts] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [streak, setStreak] = useState(0); // Estado para la racha
